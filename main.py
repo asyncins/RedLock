@@ -73,7 +73,7 @@ class RedLock:
             except Exception as ext:
                 logging.error(ext)
         if self.quorum > len(self.redis_servers):
-            ext = "哦豁！仅能连接包括 [{}] 的一小部分服务器，这种条件下无法保持锁的稳定性，请您检查;".format(len(redis_servers))
+            ext = "哦豁！仅能连接包括 [{}] 的一小部分服务器，这种条件下无法保持锁的稳定性，请您检查;".format(self.redis_servers)
             raise ConditionException(ext)
         logging.info("创建一个拥有 {}/{} 个有效节点的 RedLock 实例；期望的节点为 {}；有效节点为 {}".format(len(self.redis_servers), len(servers), servers, self.redis_servers))
 
