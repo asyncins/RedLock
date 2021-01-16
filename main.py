@@ -136,14 +136,13 @@ class RedLock:
         return LockTuple(0, resource, identifier), False
 
     def release(self, lock):
-        errors = []
+        _release = []
         for server in self.redis_servers:
-            try:
-                self._release(server, lock.resource, lock.key)
-            except Exception as ext:
-                errors.append(ext)
-        if errors:
-            raise LockException(errors)
+            result = self._release(server, lock.resource, lock.key)
+            if result:
+                _release.append(result)
+        if len(_release) <= len(self.redis_servers) // 2:
+            raise LockException("正常工作的节点数量少于一半")
 
 
 if __name__ == "__main__":
