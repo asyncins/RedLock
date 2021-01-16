@@ -85,7 +85,7 @@ class RedLock:
             return result
         except Exception as ext:
             ext = "哦豁！在服务器 [{}] 上执行锁 [{}] 操作时失败，异常信息为 [{}]，请您检查；".format(server, resource, str(ext))
-            raise LockException([ext])
+            logging.error(ext)
 
     def _release(self, server, resource, value):
         try:
@@ -93,7 +93,7 @@ class RedLock:
             logging.info("服务器 [{}] 上执行锁 [{}] 释放的结果为 [{}]，此时锁值为 [{}]；".format(server, resource, result, value))
         except Exception as ext:
             ext = "哦豁！在服务器 [{}] 上执行锁 [{}] 释放时失败，异常信息为 [{}]，请您检查；".format(server, resource, str(ext))
-            raise LockException([ext])
+            logging.error(ext)
 
     @staticmethod
     def _generator_unique_identifier():
